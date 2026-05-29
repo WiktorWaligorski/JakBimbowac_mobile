@@ -1,0 +1,103 @@
+[
+{
+"number": "16",
+"color": "#440099",
+"route_forward": [
+"Sobieskiego",
+"Most Teatralny",
+"Franowo"
+],
+"route_backward": [
+"Franowo",
+"Most Teatralny",
+"Sobieskiego"
+],
+"schedule": {
+"Sobieskiego": ["05:00", "05:20", "05:40", "06:00"],
+"Most Teatralny": ["05:10", "05:30", "05:50", "06:10"],
+"Franowo": ["05:20", "05:40", "06:00", "06:20"]
+}
+},
+{
+"number": "8",
+"color": "#da291c",
+"route_forward": [
+"Miłostowo",
+"Most Teatralny",
+"Ogrody"
+],
+"route_backward": [
+"Ogrody",
+"Most Teatralny",
+"Miłostowo"
+],
+"schedule": {
+"Miłostowo": ["05:00", "05:15", "05:30", "05:45"],
+"Most Teatralny": ["05:12", "05:27", "05:42", "05:57"],
+"Ogrody": ["05:22", "05:37", "05:52", "06:07"]
+}
+},
+{
+"number": "14",
+"color": "#946037",
+"route_forward": [
+"Sobieskiego",
+"Most Teatralny",
+"Poznań Główny",
+"Górczyn"
+],
+"route_backward": [
+"Górczyn",
+"Poznań Główny",
+"Most Teatralny",
+"Sobieskiego"
+],
+"schedule": {
+"Sobieskiego": ["05:05", "05:25", "05:45", "06:05"],
+"Most Teatralny": ["05:15", "05:35", "05:55", "06:15"],
+"Poznań Główny": ["05:20", "05:40", "06:00", "06:20"],
+"Górczyn": ["05:30", "05:50", "06:10", "06:30"]
+}
+},
+{
+"number": "42",
+"color": "#0000ff",
+"route_forward": [
+"Górczyn",
+"Poznań Główny",
+"Franowo"
+],
+"route_backward": [
+"Franowo",
+"Poznań Główny",
+"Górczyn"
+],
+"schedule": {
+"Górczyn": ["05:10", "05:30", "05:50", "06:10"],
+"Poznań Główny": ["05:18", "05:38", "05:58", "06:18"],
+"Franowo": ["05:28", "05:48", "06:08", "06:28"]
+}
+},
+{
+"number": "21",
+"color": "#00ff00",
+"route_forward": [
+"Górczyn",
+"Poznań Główny",
+"Most Teatralny",
+"Ogrody"
+],
+"route_backward": [
+"Ogrody",
+"Most Teatralny",
+"Poznań Główny",
+"Górczyn"
+],
+"schedule": {
+"Górczyn": ["05:00", "05:20", "05:40", "06:00"],
+"Poznań Główny": ["05:08", "05:28", "05:48", "06:08"],
+"Most Teatralny": ["05:15", "05:35", "05:55", "06:15"],
+"Ogrody": ["05:22", "05:42", "06:02", "06:22"]
+}
+}
+]

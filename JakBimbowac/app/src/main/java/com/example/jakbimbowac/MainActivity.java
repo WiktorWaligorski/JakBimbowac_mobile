@@ -1,15 +1,32 @@
 package com.example.jakbimbowac;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = getSharedPreferences("settings", MODE_PRIVATE);
+        int selectedTheme = preferences.getInt("theme", 0);
+
+        switch (selectedTheme) {
+            case 1:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case 2:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -30,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         button3.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, RouteActivity.class);
+            Intent intent = new Intent(MainActivity.this, RoutesActivity.class);
             startActivity(intent);
         });
 
