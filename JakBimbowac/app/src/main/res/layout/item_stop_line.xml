@@ -1,25 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="6dp"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lineButton"
-        android:layout_width="wrap_content"
+    <!-- LINE HEADER (KOLOROWY) -->
+    <LinearLayout
+        android:id="@+id/lineHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="16"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:padding="10dp"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/lineButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Linia 16"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <!-- DEPARTURES (NEUTRAL) -->
     <LinearLayout
         android:id="@+id/departuresContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"/>
-
+        android:padding="8dp"
+        android:background="#F6F7FB"/>
 </LinearLayout>

@@ -1,10 +1,13 @@
 package com.example.jakbimbowac;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class FavoritesActivity extends AppCompatActivity {
@@ -14,33 +17,56 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-        TextView favoritesLines =
-                findViewById(R.id.favoriteLines);
+        RecyclerView recyclerView =
+                findViewById(R.id.favoritesRecyclerView);
 
-        TextView favoritesStops =
-                findViewById(R.id.favoriteStops);
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
 
-        Set<String> lines =
+        List<FavoriteItem> items = new ArrayList<>();
+
+        Set<String> favLines =
                 FavoritesManager.getFavoriteLines(this);
 
-        Set<String> stops =
+        Set<String> favStops =
                 FavoritesManager.getFavoriteStops(this);
 
-        StringBuilder linesText =
-                new StringBuilder();
+        if (!favLines.isEmpty()) {
+            items.add(new FavoriteItem(
+                    FavoriteItem.TYPE_HEADER,
+                    "Lines",
+                    null
+            ));
 
-        for (String line : lines) {
-            linesText.append(line).append("\n");
+            for (String line : favLines) {
+                items.add(new FavoriteItem(
+                        FavoriteItem.TYPE_LINE,
+                        "Line " + line,
+                        null
+                ));
+            }
         }
 
-        StringBuilder stopsText =
-                new StringBuilder();
+        if (!favStops.isEmpty()) {
+            items.add(new FavoriteItem(
+                    FavoriteItem.TYPE_HEADER,
+                    "Stops",
+                    null
+            ));
 
-        for (String stop : stops) {
-            stopsText.append(stop).append("\n");
+            for (String stop : favStops) {
+                items.add(new FavoriteItem(
+                        FavoriteItem.TYPE_STOP,
+                        stop,
+                        null
+                ));
+            }
         }
 
-        favoritesLines.setText(linesText.toString());
-        favoritesStops.setText(stopsText.toString());
+        FavoritesAdapter adapter =
+                new FavoritesAdapter(items);
+
+        recyclerView.setAdapter(adapter);
     }
 }

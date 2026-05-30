@@ -38,23 +38,22 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.LineViewHold
 
         holder.lineNumber.setText(line.getNumber());
 
-        String firstStop = line.getRoute_forward().get(0);
-        String lastStop = line.getRoute_forward()
-                .get(line.getRoute_forward().size() - 1);
+        List<String> route = line.getRoute_forward();
 
-        holder.lineDirection.setText(
-                firstStop + " → " + lastStop
-        );
+        if (route == null || route.isEmpty()) return;
+
+        String firstStop = route.get(0);
+        String lastStop = route.get(route.size() - 1);
+
+        holder.lineDirection.setText(firstStop + " → " + lastStop);
 
         StringBuilder routeBuilder = new StringBuilder();
 
-        for (int i = 0; i < line.getRoute_forward().size(); i++) {
+        for (int i = 0; i < route.size(); i++) {
 
-            routeBuilder.append(
-                    line.getRoute_forward().get(i)
-            );
+            routeBuilder.append(route.get(i));
 
-            if (i < line.getRoute_forward().size() - 1) {
+            if (i < route.size() - 1) {
                 routeBuilder.append(" (10 min) → ");
             }
         }
@@ -62,29 +61,29 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.LineViewHold
         holder.lineRoute.setText(routeBuilder.toString());
 
         holder.bannerLayout.setBackgroundColor(
-                Color.parseColor(line.getColor())
+                android.graphics.Color.parseColor(line.getColor())
         );
 
-        boolean favorite =
-                FavoritesManager.isFavoriteLine(
-                        holder.itemView.getContext(),
-                        line.getNumber()
-                );
+        // ⭐ FAVORITE ICON
+        boolean isFav = FavoritesManager.isFavoriteLine(holder.itemView.getContext(), line.getNumber());
 
         holder.favoriteButton.setImageResource(
-                favorite
+                isFav
                         ? android.R.drawable.btn_star_big_on
                         : android.R.drawable.btn_star_big_off
         );
 
         holder.favoriteButton.setOnClickListener(v -> {
 
-            FavoritesManager.toggleLine(
-                    holder.itemView.getContext(),
-                    line.getNumber()
-            );
+            boolean currentlyFav = FavoritesManager.isFavoriteLine(holder.itemView.getContext(), line.getNumber());
 
-            notifyItemChanged(position);
+            if (currentlyFav) {
+                FavoritesManager.removeLine(holder.itemView.getContext(), line.getNumber());
+                holder.favoriteButton.setImageResource(android.R.drawable.btn_star_big_off);
+            } else {
+                FavoritesManager.addLine(holder.itemView.getContext(), line.getNumber());
+                holder.favoriteButton.setImageResource(android.R.drawable.btn_star_big_on);
+            }
         });
     }
 
@@ -93,8 +92,7 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.LineViewHold
         return lines.size();
     }
 
-    public static class LineViewHolder
-            extends RecyclerView.ViewHolder {
+    public static class LineViewHolder extends RecyclerView.ViewHolder {
 
         TextView lineNumber;
         TextView lineDirection;
@@ -105,20 +103,13 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.LineViewHold
         public LineViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            lineNumber =
-                    itemView.findViewById(R.id.lineNumber);
+            lineNumber = itemView.findViewById(R.id.lineNumber);
+            lineDirection = itemView.findViewById(R.id.lineDirection);
+            lineRoute = itemView.findViewById(R.id.lineRoute);
+            bannerLayout = itemView.findViewById(R.id.bannerLayout);
 
-            lineDirection =
-                    itemView.findViewById(R.id.lineDirection);
-
-            lineRoute =
-                    itemView.findViewById(R.id.lineRoute);
-
-            bannerLayout =
-                    itemView.findViewById(R.id.bannerLayout);
-
-            favoriteButton =
-                    itemView.findViewById(R.id.favoriteButton);
+            // 🔥 TO JEST BRAKUJĄCA LINIA
+            favoriteButton = itemView.findViewById(R.id.favoriteButton);
         }
     }
 }

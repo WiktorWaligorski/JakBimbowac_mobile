@@ -8,77 +8,104 @@ import java.util.Set;
 
 public class FavoritesManager {
 
-    private static final String PREFS = "favorites";
+    private static final String PREFS = "favorites_prefs";
 
-    public static boolean isFavoriteLine(Context context, String lineNumber) {
+    private static final String KEY_STOPS = "favorite_stops";
+    private static final String KEY_LINES = "favorite_lines";
 
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+    // =========================
+    // STOPS
+    // =========================
 
-        return prefs.getStringSet("lines", new HashSet<>())
-                .contains(lineNumber);
+    public static boolean isFavoriteStop(Context context, String name) {
+        return getStops(context).contains(name);
     }
 
-    public static boolean isFavoriteStop(Context context, String stopName) {
-
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-
-        return prefs.getStringSet("stops", new HashSet<>())
-                .contains(stopName);
+    public static void addStop(Context context, String name) {
+        Set<String> set = getStops(context);
+        set.add(name);
+        saveStops(context, set);
     }
 
-    public static void toggleLine(Context context, String lineNumber) {
+    public static void removeStop(Context context, String name) {
+        Set<String> set = getStops(context);
+        set.remove(name);
+        saveStops(context, set);
+    }
 
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-
-        Set<String> lines =
-                new HashSet<>(prefs.getStringSet("lines",
-                        new HashSet<>()));
-
-        if (lines.contains(lineNumber)) {
-            lines.remove(lineNumber);
+    public static void toggleStop(Context context, String name) {
+        if (isFavoriteStop(context, name)) {
+            removeStop(context, name);
         } else {
-            lines.add(lineNumber);
+            addStop(context, name);
         }
-
-        prefs.edit().putStringSet("lines", lines).apply();
-    }
-
-    public static void toggleStop(Context context, String stopName) {
-
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-
-        Set<String> stops =
-                new HashSet<>(prefs.getStringSet("stops",
-                        new HashSet<>()));
-
-        if (stops.contains(stopName)) {
-            stops.remove(stopName);
-        } else {
-            stops.add(stopName);
-        }
-
-        prefs.edit().putStringSet("stops", stops).apply();
-    }
-
-    public static Set<String> getFavoriteLines(Context context) {
-
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-
-        return new HashSet<>(
-                prefs.getStringSet("lines", new HashSet<>()));
     }
 
     public static Set<String> getFavoriteStops(Context context) {
+        return getStops(context);
+    }
 
-        SharedPreferences prefs =
-                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+    // =========================
+    // LINES
+    // =========================
 
+    public static boolean isFavoriteLine(Context context, String lineNumber) {
+        return getLines(context).contains(lineNumber);
+    }
+
+    public static void addLine(Context context, String lineNumber) {
+        Set<String> set = getLines(context);
+        set.add(lineNumber);
+        saveLines(context, set);
+    }
+
+    public static void removeLine(Context context, String lineNumber) {
+        Set<String> set = getLines(context);
+        set.remove(lineNumber);
+        saveLines(context, set);
+    }
+
+    public static void toggleLine(Context context, String lineNumber) {
+        if (isFavoriteLine(context, lineNumber)) {
+            removeLine(context, lineNumber);
+        } else {
+            addLine(context, lineNumber);
+        }
+    }
+
+    public static Set<String> getFavoriteLines(Context context) {
+        return getLines(context);
+    }
+
+    // =========================
+    // INTERNAL
+    // =========================
+
+    private static Set<String> getStops(Context context) {
         return new HashSet<>(
-                prefs.getStringSet("stops", new HashSet<>()));
+                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                        .getStringSet(KEY_STOPS, new HashSet<>())
+        );
+    }
+
+    private static Set<String> getLines(Context context) {
+        return new HashSet<>(
+                context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                        .getStringSet(KEY_LINES, new HashSet<>())
+        );
+    }
+
+    private static void saveStops(Context context, Set<String> set) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putStringSet(KEY_STOPS, set)
+                .apply();
+    }
+
+    private static void saveLines(Context context, Set<String> set) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putStringSet(KEY_LINES, set)
+                .apply();
     }
 }

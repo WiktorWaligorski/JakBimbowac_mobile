@@ -1,56 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:orientation="vertical"
-    android:layout_margin="12dp"
-    android:background="@android:color/white"
-    android:elevation="4dp"
-    android:padding="12dp">
+    android:background="@drawable/card_premium"
+    android:elevation="4dp">
 
-    <RelativeLayout
+    <!-- HEADER / BANNER -->
+    <LinearLayout
         android:id="@+id/bannerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
         android:padding="12dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/lineNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="16"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/lineNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="28sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/lineDirection"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/lineDirection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Sobieskiego → Franowo"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
 
         <ImageButton
             android:id="@+id/favoriteButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:src="@android:drawable/btn_star_big_off"/>
+    </LinearLayout>
 
-    </RelativeLayout>
-
+    <!-- ROUTE -->
     <TextView
         android:id="@+id/lineRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="16sp"/>
-
+        android:padding="12dp"
+        android:text="Sobieskiego → Most Teatralny → Franowo"
+        android:textSize="15sp"
+        android:textColor="#444"/>
 </LinearLayout>
