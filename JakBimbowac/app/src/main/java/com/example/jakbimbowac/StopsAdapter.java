@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,8 +15,8 @@ import java.util.List;
 
 public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopViewHolder> {
 
-    private List<Stop> stops;
-    private List<Line> lines;
+    private final List<Stop> stops;
+    private final List<Line> lines;
 
     public StopsAdapter(List<Stop> stops, List<Line> lines) {
         this.stops = stops;
@@ -24,7 +25,10 @@ public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopViewHold
 
     @NonNull
     @Override
-    public StopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public StopViewHolder onCreateViewHolder(
+            @NonNull ViewGroup parent,
+            int viewType
+    ) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_stop, parent, false);
@@ -33,61 +37,110 @@ public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StopViewHolder holder, int position) {
+    public void onBindViewHolder(
+            @NonNull StopViewHolder holder,
+            int position
+    ) {
 
         Stop stop = stops.get(position);
 
         holder.stopName.setText(stop.getName());
 
+        boolean favorite =
+                FavoritesManager.isFavoriteStop(
+                        holder.itemView.getContext(),
+                        stop.getName()
+                );
+
+        holder.favoriteButton.setImageResource(
+                favorite
+                        ? android.R.drawable.btn_star_big_on
+                        : android.R.drawable.btn_star_big_off
+        );
+
+        holder.favoriteButton.setOnClickListener(v -> {
+
+            FavoritesManager.toggleStop(
+                    holder.itemView.getContext(),
+                    stop.getName()
+            );
+
+            notifyItemChanged(position);
+        });
+
         holder.linesContainer.removeAllViews();
 
         for (Line line : lines) {
 
-            if (line.getRoute_forward().contains(stop.getName()) ||
-                    line.getRoute_backward().contains(stop.getName())) {
+            if (line.getRoute_forward().contains(stop.getName())
+                    || line.getRoute_backward().contains(stop.getName())) {
 
-                View lineView = LayoutInflater.from(holder.itemView.getContext())
-                        .inflate(R.layout.item_stop_line,
-                                holder.linesContainer,
-                                false);
+                View lineView =
+                        LayoutInflater.from(
+                                        holder.itemView.getContext())
+                                .inflate(
+                                        R.layout.item_stop_line,
+                                        holder.linesContainer,
+                                        false
+                                );
 
                 TextView lineButton =
                         lineView.findViewById(R.id.lineButton);
 
                 LinearLayout departuresContainer =
-                        lineView.findViewById(R.id.departuresContainer);
+                        lineView.findViewById(
+                                R.id.departuresContainer
+                        );
 
-                lineButton.setText("Linia " + line.getNumber());
+                lineButton.setText(
+                        "Linia " + line.getNumber()
+                );
 
                 lineButton.setBackgroundColor(
-                        Color.parseColor(line.getColor()));
+                        Color.parseColor(line.getColor())
+                );
 
                 lineButton.setTextColor(Color.WHITE);
 
                 List<String> departures =
-                        line.getSchedule().get(stop.getName());
+                        line.getSchedule()
+                                .get(stop.getName());
 
                 if (departures != null) {
 
                     for (String departure : departures) {
 
-                        TextView departureText = new TextView(
-                                holder.itemView.getContext());
+                        TextView departureText =
+                                new TextView(
+                                        holder.itemView.getContext()
+                                );
 
-                        departureText.setText("Odjazd: " + departure);
+                        departureText.setText(
+                                "Odjazd: " + departure
+                        );
 
                         departureText.setTextSize(16);
 
-                        departuresContainer.addView(departureText);
+                        departuresContainer.addView(
+                                departureText
+                        );
                     }
                 }
 
                 lineButton.setOnClickListener(v -> {
 
-                    if (departuresContainer.getVisibility() == View.GONE) {
-                        departuresContainer.setVisibility(View.VISIBLE);
+                    if (departuresContainer.getVisibility()
+                            == View.GONE) {
+
+                        departuresContainer.setVisibility(
+                                View.VISIBLE
+                        );
+
                     } else {
-                        departuresContainer.setVisibility(View.GONE);
+
+                        departuresContainer.setVisibility(
+                                View.GONE
+                        );
                     }
                 });
 
@@ -101,18 +154,24 @@ public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopViewHold
         return stops.size();
     }
 
-    public static class StopViewHolder extends RecyclerView.ViewHolder {
+    public static class StopViewHolder
+            extends RecyclerView.ViewHolder {
 
         TextView stopName;
         LinearLayout linesContainer;
+        ImageButton favoriteButton;
 
         public StopViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            stopName = itemView.findViewById(R.id.stopName);
+            stopName =
+                    itemView.findViewById(R.id.stopName);
 
             linesContainer =
                     itemView.findViewById(R.id.linesContainer);
+
+            favoriteButton =
+                    itemView.findViewById(R.id.favoriteButton);
         }
     }
 }

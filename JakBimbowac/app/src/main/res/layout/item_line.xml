@@ -8,38 +8,49 @@
     android:elevation="4dp"
     android:padding="12dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/bannerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/lineNumber"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16"
-            android:textColor="@android:color/white"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/lineDirection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sobieskiego → Franowo"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/lineNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/lineDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/btn_star_big_off"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/lineRoute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Sobieskiego (0 min) → Most Teatralny (10 min) → Franowo"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
 </LinearLayout>
