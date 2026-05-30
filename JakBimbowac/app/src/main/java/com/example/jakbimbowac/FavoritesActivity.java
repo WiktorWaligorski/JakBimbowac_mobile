@@ -1,24 +1,46 @@
 package com.example.jakbimbowac;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Set;
 
 public class FavoritesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_favorites);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        TextView favoritesLines =
+                findViewById(R.id.favoriteLines);
+
+        TextView favoritesStops =
+                findViewById(R.id.favoriteStops);
+
+        Set<String> lines =
+                FavoritesManager.getFavoriteLines(this);
+
+        Set<String> stops =
+                FavoritesManager.getFavoriteStops(this);
+
+        StringBuilder linesText =
+                new StringBuilder();
+
+        for (String line : lines) {
+            linesText.append(line).append("\n");
+        }
+
+        StringBuilder stopsText =
+                new StringBuilder();
+
+        for (String stop : stops) {
+            stopsText.append(stop).append("\n");
+        }
+
+        favoritesLines.setText(linesText.toString());
+        favoritesStops.setText(stopsText.toString());
     }
 }
